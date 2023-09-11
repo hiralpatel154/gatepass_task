@@ -1,0 +1,45 @@
+.sign-up-form{
+  background-image: url('../assets/register.jpg');
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: 0rem;
+  transition: margin 0.25s ease-out;
+}
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: -15rem;
+}
+.main-css{
+  position: relative;
+}
+.navbar-collapse{
+  position: absolute;
+  right: 0;
+}
+.page_css{
+  width: 100% !important;
+}
+.logout{
+  width: fit-content;
+}
+.logout-text{
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+.username{
+  font-size: 40px;
+  font-weight: 500;
+  color: blueviolet;
+}
+
+@media only screen and (max-width: 991px) {
+  .navbar-collapse{
+    position: initial;
+    right: 0;
+  }
+}
