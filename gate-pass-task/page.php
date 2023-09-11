@@ -1,55 +1,74 @@
 <?php
 include 'db-conn.php';
-$sql = "SELECT * from employees";
+$per_page = 5;
+$start = 0;
+$current_page = 1;
+if (isset($_GET['start'])) {
+    $start = $_GET['start'];
+    if ($start <= 0) {
+        $start = 0;
+        $current_page = 1;
+    } else {
+        $current_page = $start;
+        $start--;
+        $start = $start * $per_page;
+    }
+}
+
+$sql = "SELECT * from employees limit $start,$per_page";
 $run = sqlsrv_query($con, $sql);
+$row = sqlsrv_fetch_array($run, SQLSRV_FETCH_ASSOC);
+$params = array();
+$options = array("Scrollable" => SQLSRV_CURSOR_KEYSET);
+$result = sqlsrv_query($con, $sql, $params, $options);
+$record = sqlsrv_num_rows($result);
+$total_page = ceil($record / $per_page);
+
+
+
 ?>
 
 <div class="main-content">
     <main>
         <div class="page-header d-flex justify-content-between align-items-center">
             <div>
-                <h3>Gate Pass</h3>
+                <h3 class="mt-4">Gate Pass</h3>
             </div>
-            <!-- <input type="text" name="Search Here" id="main-search" placeholder="Search Here" class="form-control w-25"> -->
+            <input type="text" name="Search Here" id="main-search" placeholder="Search Here" class="form-control w-25">
             <div>
                 <a href="add-new.php" class="add-new rounded-pill"><i class="fa-solid fa-user-plus"></i>Add New</a>
             </div>
         </div>
         <!-- View the Employee Table -->
         <div class="table-box" id="search-table">
-            <table class="table align-middle" id="gate-data">
+            <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th>Sr No.</th>
                         <th>Visitor ID</th>
-                        <th>Image</th>
-                        <th>Date</th>
-                        <th>Intime</th>
-                        <th>Mobile No.</th>
-                        <th>Name</th>
-                        <th>Details</th>
-                        <th>Company Name</th>
-                        <th>Address</th>
-                        <th>Person to meet</th>
-                        <th>Time officer name</th>
-                        <th>Action</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Intime</th>
+                        <th scope="col">Mobile No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Person to <br>meet</th>
+                        <th scope="col">Time <br>officer <br> name</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $sr = 1;
                     while ($row = sqlsrv_fetch_array($run, SQLSRV_FETCH_ASSOC)) {
                         ?>
                         <tr>
-                            <td>
-                                <?php echo $sr ?>
-                            </td>
                             <td>
                                 <?php echo $row['visitor_id'] ?>
                             </td>
                             <td><img src='uploads/<?php echo $row['file_name'] ?>' alt="image" srcset="" class="user-image">
                             </td>
-                            <td style="white-space:nowrap;">
+                            <td>
                                 <?php echo $row['date_field']->format('d-m-Y') ?>
                             </td>
                             <td>
@@ -87,15 +106,25 @@ $run = sqlsrv_query($con, $sql);
                                 </div>
                             </td>
                         </tr>
-                        <?php $sr++;
+                        <?php
                     }
                     ?>
 
                 </tbody>
             </table>
+            <div class="pagination-box">
+                <?php
+                for ($i = 1; $i <= $total_page; $i++) {
 
+                    ?>
+                    <?php echo "<a href='index.php?page=" . $i . "'>" . $i . "</a>"; ?>
+                <?php } ?>
+            </div>
         </div>
+
     </main>
+
+
 </div>
 <script>
     $(document).on('keyup', '#main-search', function () {
@@ -106,21 +135,6 @@ $run = sqlsrv_query($con, $sql);
             data: { search },
             success: function (data) {
                 $('#search-table').html(data);
-            }
-        });
-    });
-    $(document).ready(function () {
-        $('#gate-data').DataTable({
-            "processing": true,
-            "lengthMenu": [5, 10, 25, 50, 75, 100],
-            "responsive": {
-                "details": true
-            },
-
-            dom: 'Bfrtip',
-            buttons: ['pageLength', 'excel'],
-            language: {
-                searchPlaceholder: "Search..."
             }
         });
     });

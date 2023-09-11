@@ -49,7 +49,7 @@ $drow = sqlsrv_fetch_array($dresult, SQLSRV_FETCH_ASSOC);
                     <div class="col-md-7 col-sm-6 col-6 px-0 d-flex flex-column justify-content-center">
                         <div class="visitor-count">
                             <p class="today-visitors">
-                                <?php echo $row['v_count'] + 1 ?>
+                                <?php echo $row['v_count'] ?>
                             </p>
                             <p class="visitor-text">Total Visitors till date
                             </p>

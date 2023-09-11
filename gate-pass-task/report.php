@@ -36,4 +36,19 @@ include 'header.php';
             }
         });
     });
+    $(document).ready(function () {
+        $('#reportData').DataTable({
+            "processing": true,
+            "lengthMenu": [5, 10, 25, 50, 75, 100],
+            "responsive": {
+                "details": true
+            },
+
+            dom: 'Bfrtip',
+            buttons: ['pageLength', 'excel'],
+            language: {
+                searchPlaceholder: "Search..."
+            }
+        });
+    });
 </script>

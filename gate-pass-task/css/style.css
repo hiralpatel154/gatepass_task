@@ -62,6 +62,7 @@ p {
 
 #sidebar-toggle:checked ~ .sidebar {
   left: -100%;
+  width: 40px !important;
 }
 
 #sidebar-toggle:checked ~ .main-content {
@@ -105,16 +106,32 @@ main {
   padding: 15px;
   background-color: #fff;
   border-radius: 5px;
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 table,
 th,
 td {
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   font-size: 14px;
   text-align: center;
-  padding: 5px !important;
+}
+
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
+.dataTables_length {
+  margin-bottom: 20px;
+}
+
+#gate-data {
+  display: block;
+  overflow-x: auto;
+}
+
+#gate-data th {
+  white-space: nowrap !important;
 }
 
 .user-image {

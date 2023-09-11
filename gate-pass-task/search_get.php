@@ -1,24 +1,26 @@
 <?php
 include 'db-conn.php';
-if (isset($_POST['date'])) {
-    $date = $_POST['date'];
-    $sql = "SELECT * FROM employees where date_field = '$date'";
+if (isset($_POST['search'])) {
+    $search = $_POST['search'];
+    $sql = "SELECT * FROM employees where company LIKE '%$search%' OR name LIKE '%$search%' OR address LIKE '%$search%' OR person LIKE '%$search%' OR officer LIKE '%$search%' OR mobile LIKE '%$search%' OR date_field like '%$search%' or time_field like '%$search%' or visitor_id like '%$search%'";
+    // $sql = "SELECT * FROM employees where name='$search'";
     $result = sqlsrv_query($con, $sql);
+
     ?>
-    <table class="table table-striped align-middle" id="reportData">
+    <table class="table table-striped align-middle">
         <thead>
             <tr>
                 <th>Visitor ID</th>
-                <th>Image</th>
-                <th>Date</th>
-                <th>Intime</th>
-                <th>Mobile No.</th>
-                <th>Name</th>
-                <th>Details</th>
-                <th>Company Name</th>
-                <th>Address</th>
-                <th>Person to <br>meet</th>
-                <th>Time <br>officer <br> name</th>
+                <th scope="col">Image</th>
+                <th scope="col">Date</th>
+                <th scope="col">Intime</th>
+                <th scope="col">Mobile No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Details</th>
+                <th scope="col">Company Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Person to <br>meet</th>
+                <th scope="col">Time <br>officer <br> name</th>
             </tr>
         </thead>
         <tbody>
@@ -58,10 +60,8 @@ if (isset($_POST['date'])) {
                     </td>
                 </tr>
             <?php } ?>
-            
+
         </tbody>
     </table>
     <?php
-}
-
-?>
+} ?>
